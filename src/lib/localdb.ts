@@ -1,6 +1,16 @@
 const STORAGE_PREFIX = 'sr:';
 const CURRENT_VERSION = 1;
 
+type PlanData = {
+  id: string;
+  name?: string;
+  createdAt?: string;
+  city?: string;
+  stops?: { length: number };
+  totalDistanceMeters?: number;
+  totalDurationSec?: number;
+};
+
 interface PlanIndexEntry {
   id: string;
   name: string;
@@ -29,7 +39,7 @@ class LocalDBWrapper {
   }
 
   // Plan management
-  async savePlan<T extends { id: string }>(plan: T): Promise<void> {
+  async savePlan<T extends PlanData>(plan: T): Promise<void> {
     if (!this.isAvailable()) throw new Error('localStorage is not available');
     
     const planKey = this.getKey(`plan:${plan.id}`);
@@ -43,12 +53,12 @@ class LocalDBWrapper {
       // Update index
       const indexEntry: PlanIndexEntry = {
         id: plan.id,
-        name: (plan as any).name || 'Untitled Plan',
-        createdAt: (plan as any).createdAt || new Date().toISOString(),
-        city: (plan as any).city || 'Unknown',
-        stopsCount: (plan as any).stops?.length || 0,
-        totalDistanceMeters: (plan as any).totalDistanceMeters || 0,
-        totalDurationSec: (plan as any).totalDurationSec || 0,
+        name: plan.name || 'Untitled Plan',
+        createdAt: plan.createdAt || new Date().toISOString(),
+        city: plan.city || 'Unknown',
+        stopsCount: plan.stops?.length || 0,
+        totalDistanceMeters: plan.totalDistanceMeters || 0,
+        totalDurationSec: plan.totalDurationSec || 0,
         version: CURRENT_VERSION,
       };
       

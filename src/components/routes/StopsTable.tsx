@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { useRouteStore } from '@/store/useRouteStore';
-import { DragHandle, Trash2 } from 'lucide-react';
+import { GripVertical as DragHandle, Trash2 } from 'lucide-react';
 import { type Stop } from '@/lib/types';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
@@ -79,9 +79,9 @@ export default function StopsTable() {
 
   if (!isMounted) return null;
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    if (active.id !== over.id) {
+    if (over && active.id !== over.id) {
       const oldIndex = stops.findIndex((stop) => stop.id === active.id);
       const newIndex = stops.findIndex((stop) => stop.id === over.id);
       reorderStops(oldIndex, newIndex);

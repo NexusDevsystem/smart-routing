@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { Card } from '@/components/ui/card';
 import {
   Table,
@@ -18,23 +18,13 @@ import { toast } from 'sonner';
 import type { HistoryEntry } from '@/lib/types';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
-export default function HistoricoPage() {
+function HistoricoContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [plans, setPlans] = useState<HistoryEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [planToDelete, setPlanToDelete] = useState<string | null>(null);
-
-  useEffect(() => {
-    loadPlans();
-    
-    // Check for deep link
-    const planId = searchParams?.get('id');
-    if (planId) {
-      handleOpenPlan(planId);
-    }
-  }, [searchParams]);
 
   const loadPlans = () => {
     try {
@@ -186,5 +176,13 @@ export default function HistoricoPage() {
         </DialogContent>
       </Dialog>
     </div>
+  );
+}
+
+export default function HistoricoPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HistoricoContent />
+    </Suspense>
   );
 }
