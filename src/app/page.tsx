@@ -1,29 +1,41 @@
-import Image from "next/image";
+'use client';
+
+import { Card } from '@/components/ui/card';
+import { StopsForm } from '@/components/routes/StopsForm';
+import { StopsTable } from '@/components/routes/StopsTable';
+import { OptimizePanel } from '@/components/routes/OptimizePanel';
+import { GoogleMap } from '@/components/map/GoogleMap';
+import { useRouteStore } from '@/store/useRouteStore';
 
 export default function Home() {
+  const { stops } = useRouteStore();
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen p-4 md:p-8 space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8">
+        <Card className="p-6">
+          <GoogleMap />
+        </Card>
+
+        <div className="space-y-8">
+          <Card className="p-6">
+            <StopsForm />
+          </Card>
+
+          {stops.length > 0 && (
+            <Card className="p-6">
+              <OptimizePanel />
+            </Card>
+          )}
+        </div>
+      </div>
+
+      {stops.length > 0 && (
+        <Card className="p-6">
+          <StopsTable />
+        </Card>
+      )}
+    </div>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
