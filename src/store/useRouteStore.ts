@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Stop, Plan } from '@/lib/types';
 
+import { DeliveryPricing, DeliveryCalculation } from '@/lib/deliveryPricing';
+
 interface RouteState {
   stops: Stop[];
   origin: Stop | null;
@@ -10,6 +12,8 @@ interface RouteState {
   totalDurationSec: number;
   loading: boolean;
   optimizing: boolean;
+  deliveryPrice: DeliveryCalculation | null;
+  pricing: DeliveryPricing;
   addStop: (stop: Stop) => void;
   updateStop: (stopId: string, stop: Partial<Stop>) => void;
   removeStop: (stopId: string) => void;
@@ -34,6 +38,13 @@ export const useRouteStore = create<RouteState>()(
       totalDurationSec: 0,
       loading: false,
       optimizing: false,
+      deliveryPrice: null,
+      pricing: {
+        baseFee: 5.00,
+        pricePerKm: 2.00,
+        minDistance: 1.5,
+        rushHourFee: 20,
+      },
       
       addStop: (stop) =>
         set((state) => ({

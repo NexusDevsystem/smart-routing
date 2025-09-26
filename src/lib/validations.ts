@@ -12,11 +12,18 @@ export const stopSchema = z.object({
 
 export const stopsFormSchema = z.object({
   addressInput: z.string().min(1, 'Endereço é obrigatório'),
-  cep: z.string().regex(/^[0-9]{8}$/, 'CEP inválido').optional(),
-  number: z.string().min(1, 'Número é obrigatório').optional(),
+  cep: z.string().regex(/^[0-9]{8}$/, 'CEP inválido'),
+  number: z.string().min(1, 'Número é obrigatório'),
   label: z.string().min(1, 'Apelido é obrigatório'),
-  windowStart: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Formato inválido (HH:mm)').optional(),
-  windowEnd: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Formato inválido (HH:mm)').optional(),
+  windowStart: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Formato inválido (HH:mm)'),
+  windowEnd: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Formato inválido (HH:mm)'),
+  customerName: z.string().min(1, 'Nome do cliente é obrigatório'),
+  customerPhone: z.string().regex(/^[0-9]{10,11}$/, 'Telefone inválido'),
+  orderDetails: z.string().optional(),
+  deliveryNotes: z.string().optional(),
+  paymentMethod: z.enum(['DINHEIRO', 'CARTÃO', 'PIX', 'PAGO']),
+  needChange: z.boolean().optional(),
+  changeAmount: z.string().regex(/^[0-9]+([,.][0-9]{1,2})?$/, 'Valor inválido').optional(),
 });
 
 export type StopsFormData = z.infer<typeof stopsFormSchema>;
