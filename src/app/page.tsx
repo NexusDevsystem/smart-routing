@@ -1,10 +1,10 @@
 'use client';
 
 import { Card } from '@/components/ui/card';
-import { StopsForm } from '@/components/routes/StopsForm';
-import { StopsTable } from '@/components/routes/StopsTable';
-import { OptimizePanel } from '@/components/routes/OptimizePanel';
-import { GoogleMap } from '@/components/map/GoogleMap';
+import StopsForm from '@/components/routes/StopsForm';
+import StopsTable from '@/components/routes/StopsTable';
+import OptimizePanel from '@/components/routes/OptimizePanel';
+import GoogleMap from '@/components/map/GoogleMap';
 import { useRouteStore } from '@/store/useRouteStore';
 
 export default function Home() {
@@ -36,6 +36,8 @@ export default function Home() {
         </Card>
       )}
     </div>
+  );
+}
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
