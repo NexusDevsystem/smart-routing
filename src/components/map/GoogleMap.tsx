@@ -14,6 +14,7 @@ export default function GoogleMapsComponent() {
   const directionsRendererRef = useRef<google.maps.DirectionsRenderer | null>(null);
   const { stops, origin, loading } = useRouteStore();
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
+  const [mapLoading, setMapLoading] = useState(true);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
@@ -103,12 +104,34 @@ export default function GoogleMapsComponent() {
   }
 
   return (
-    <div className="map-container">
+    <div className="w-full h-full relative">
       <GoogleMap
-        mapContainerClassName="w-full h-full rounded-2xl"
+        mapContainerClassName="w-full h-full rounded-lg shadow-inner"
         zoom={DEFAULT_ZOOM}
         center={DEFAULT_CENTER}
-        options={GOOGLE_MAPS_OPTIONS}
+        options={{
+          ...GOOGLE_MAPS_OPTIONS,
+          styles: [
+            {
+              featureType: "all",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#6B7280" }]
+            },
+            {
+              featureType: "water",
+              elementType: "geometry",
+              stylers: [{ color: "#E5E7EB" }]
+            },
+            {
+              featureType: "landscape",
+              elementType: "geometry",
+              stylers: [{ color: "#F3F4F6" }]
+            }
+          ],
+          fullscreenControl: true,
+          streetViewControl: false,
+          mapTypeControl: false,
+        }}
         onLoad={onMapLoad}
       >
         {stops.map((stop, index) => (

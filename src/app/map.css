@@ -1,0 +1,40 @@
+.map-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.marker-label {
+  color: #ffffff;
+  background: #3b82f6;
+  border-radius: 50%;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.gm-style-iw {
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.route-info {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+@media (max-width: 640px) {
+  .route-info {
+    width: 90%;
+    bottom: 16px;
+  }
+}
